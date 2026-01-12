@@ -123,4 +123,3 @@ The TCP/IP model typically has 4 layers: Application, Transport, Internet, Link.
 
 ---
 
-If تود أي تغيير إضافي (مثلاً: ترجمة المحتوى للعربية، إضافة أمثلة بروتوكولات مفصّلة، أو تحسين الجداول)، أخبرني ما الذي تريد تعديله تحديدًا. 
