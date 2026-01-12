@@ -1,113 +1,126 @@
-
-## What is a networking model?
+# What is a networking model?
 Networking models categorize and provide a structure for networking protocols and standards.
 
-### logical
+**Logical:**  
 A set of rules defining how network devices and software should work.
 
+---
 
-# OSI Model 
-● ‘Open Systems Interconnection’ model 
-● A conceptual model that categorizes and standardizes the different functions in a network. 
-● Created by the ‘International Organization for Standardization’ (ISO). 
-● Functions are divided into 7 ‘Layers’. 
-● These layers work together to make the network work
+# OSI Model
+- "Open Systems Interconnection" model
+- A conceptual model that categorizes and standardizes the different functions in a network
+- Created by the International Organization for Standardization (ISO)
+- Functions are divided into 7 layers
+- These layers work together to make the network function
 
+## Layer 7 — Application
+- Closest to the end user
+- Interacts with software applications (e.g., web browsers like Brave, Firefox, Chrome)
+- Example protocols: HTTP, HTTPS
 
-## 7. Application Layer
-● This layer is closest to the end user. 
-● Interacts with software applications, for example your web browser (Brave, Firefox, Chrome, etc) ● HTTP and HTTPS are Layer 7 protocols 
+Functions:
+- Identifying communication partners
+- Synchronizing communication
 
-Functions of Layer 7 include:
-● Identifying communication partners 
-● Synchronizing communication
+## Layer 6 — Presentation
+- Translates data between application format and network format
+- Handles data encoding, encryption/decryption, and format translation (e.g., character encoding, compression)
 
-## 6. Presentation Layer
-●Data in the application layer is in ‘application format’.
-● It needs to be ‘translated’ to a different format to be sent over the network.
-● The Presentation Layer’s job is to translate between application and network formats.
-● For example, encryption of data as it is sent, and decryption of data as it is received. 
-●Also translates between different Application Layer formats.
+## Layer 5 — Session
+- Controls dialogues (sessions) between communicating hosts
+- Establishes, manages, and terminates connections between local and remote applications
 
+## Layer 4 — Transport
+- Segments and reassembles data for communications between end hosts
+- Breaks large pieces of data into smaller segments to reduce transmission errors
+- Provides host-to-host communication (e.g., TCP, UDP)
 
-## 5. Session Layer
-● Controls dialogues (sessions) between communicating hosts. 
-● Establishes, manages, and terminates connections between the local application (for example, your web browser) and the remote application (for example, YouTube).
+When data from Layers 7–5 arrives, the Transport layer adds a Layer 4 header:
 
-## 4. Transport Layer
-● Segments and reassembles data for communications between end hosts. 
-●Breaks large pieces of data into smaller segments which can be more easily sent over the network and are less likely to cause transmission problems if errors occur. 
-●Provide host-to-host communication.
-
-When Data from Layer 7-5 arrives, it receives a Layer 4 Header in the Transport layer.
-
+```
 << DATA + L4 Header >>
+```
 
-This is called a SEGMENT.
+This unit is called a SEGMENT.
 
+## Layer 3 — Network
+- Provides connectivity between hosts on different networks (i.e., outside the LAN)
+- Provides logical addressing (IP addresses)
+- Handles path selection (routing)
+- Devices: routers (operate at Layer 3)
 
-## 3. Network Layer
-●Provides connectivity between end hosts on different networks (ie. outside of the LAN). ●Provides logical addressing (IP addresses). 
-●Provides path selection between source and destination. 
-●Routers operate at Layer 3.
+When the Transport segment arrives, the Network layer adds a Layer 3 header:
 
-When Data and the Layer 4 Header arrive in the Network Layer, it receives a Layer 3 Header.
-
+```
 << DATA + L4 Header + L3 Header >>
+```
 
-This is called a **PACKET**.
+This unit is called a PACKET.
 
+## Layer 2 — Data Link
+- Provides node-to-node (link) connectivity and data transfer (e.g., PC to switch)
+- Defines how data is formatted for transmission over a physical medium (e.g., UTP cables)
+- Detects and may correct Physical Layer errors
+- Uses Layer 2 addressing (MAC addresses)
+- Devices: switches (operate at Layer 2)
 
-## 2. Data Link Layer
-Provides node-to-node connectivity and data transfer (for example, PC to switch, switch to router, router to router). 
-●Defines how data is formatted for transmission over a physical medium (for example, copper UTP cables) 
-●Detects and (possibly) corrects Physical Layer errors. 
-●Uses Layer 2 addressing, separate from Layer 3 addressing. 
-● Switches operate at Layer 2.
+When the Network packet arrives, the Data Link layer adds a Layer 2 header and trailer:
 
-When the Layer 3 Packet arrives, a Layer 2 Trailer and Header are added.
+```
+<< L2 Header + DATA + L4 Header + L3 Header + L2 Trailer >>
+```
 
-<< L2 Trailer + DATA + L4 Header + L3 Header + L2 Header >>
+This unit is called a FRAME.
 
-This is called a FRAME.
+All the steps adding headers/trailers before transmission are called ENCAPSULATION. When the frame is received, the reverse process (DE-ENCAPSULATION) strips off the Layer 2, Layer 3, then Layer 4 information as data ascends the stack.
 
-All the steps leading up to transmission is called ENCAPSULATION. When the frame is sent to the receiver, it then goes through the reverse process, DE-ENCAPSULATION, stripping off layers while travelling from OSI Layer 1 to Layer 7.
+## Layer 1 — Physical
+- Defines physical characteristics of the medium used to transfer data between devices
+- Examples: voltage levels, maximum transmission distances, connectors, cable specifications
+- Converts digital bits into electrical (wired) or radio (wireless) signals
 
-## 1. Physical Layer
-●Defines physical characteristics of the medium used to transfer data between devices. 
-● For example, voltage levels, maximum transmission distances, physical connectors, cable specifications, etc. 
-●Digital bits are converted into electrical (for wired connections) or radio (for wireless connections) signals.
+---
 
+### OSI Model — PDUs (Protocol Data Units)
 
-### OSI MODEL - PDU's
+A PDU is the unit of data at each OSI layer.
 
-A PDU is a Protocol Data Unit. Each step of the process is a PDU.
+| OSI Layer # | PDU Name | Protocol Data Added |
+|-------------:|:--------:|:-------------------:|
+| 7–5          | DATA     | Data                |
+| 4            | SEGMENT  | Layer 4 header added|
+| 3            | PACKET   | Layer 3 header added|
+| 2            | FRAME    | Layer 2 header & trailer added |
+| 1            | BIT      | 0s and 1s (physical transmission) |
 
-|OSI LAYER #|PDU NAME|PROTOCOL DATA ADDED|
-|---|---|---|
-|7-5|DATA|Data|
-|4|SEGMENT|Layer 4 Header Added|
-|3|PACKET|Layer 3 Header Added|
-|2|FRAME|Layer 2 Trailer and Header Added|
-|1|BIT|0s and 1s Transmission|
+Example encapsulation order:
 
-<< L2 Trailer + DATA + L4 Header + L3 Header + L2 Header >>
+```
+<< L2 Header + DATA + L4 Header + L3 Header + L2 Trailer >>
+```
 
-### TCP/IP Suite
+---
 
-- Conceptual model and set of communications protocols used in the Internet and other networks.
-- Known as TCP/IP because those are two of the foundational protocols in the suite.
-- Developed by the US Dept. of Defense through DARPA (Defense Advanced Research Projects Agency).
-- Similar structure to the OSI Model, but fewer layers.
-- THIS is the model actually in use in modern networks.
-- - Note : The OSI Model still influences how network engineers think and talk about networks.
+# TCP/IP Suite
+- A conceptual model and set of communications protocols used on the Internet
+- Named after two foundational protocols: TCP and IP
+- Developed from DARPA work (US DoD)
+- Simpler than OSI; commonly used in real networks
+- The OSI model still influences how engineers think and discuss networking concepts
 
-| **OSI Model Layer** | **OSI Name**     | **TCP/IP Layer** | **TCP/IP Name** | **Red Team Focus 🎯**           |
-| ------------------- | ---------------- | ---------------- | --------------- | ------------------------------- |
-| **7**               | **Application**  |                  |                 | **Web Shells, Phishing**        |
-| **6**               | **Presentation** | **4**            | **Application** | **Data Encoding (Base64)**      |
-| **5**               | **Session**      |                  |                 | **Session Hijacking**           |
-| **4**               | **Transport**    | **3**            | **Transport**   | **Port Scanning (TCP/UDP)**     |
-| **3**               | **Network**      | **2**            | **Internet**    | **IP Spoofing, Routing**        |
-| **2**               | **Data Link**    | **1**            | **Link**        | **MAC Flooding, ARP Poisoning** |
-| **1**               | **Physical**     |                  |                 | **Physical Access, BadUSB**     |
+## TCP/IP → OSI mapping (common view)
+The TCP/IP model typically has 4 layers: Application, Transport, Internet, Link. OSI layers 7–5 are generally represented by the TCP/IP Application layer; OSI layers 2–1 correspond to the TCP/IP Link layer.
+
+| OSI Layer # | OSI Name     | TCP/IP Layer # | TCP/IP Name  | Red Team Focus (examples)         |
+|------------:|:-------------|:---------------:|:-------------|:----------------------------------|
+| 7           | Application  | 4               | Application  | Web shells, phishing              |
+| 6           | Presentation | 4               | Application  | Data encoding (Base64), encryption|
+| 5           | Session      | 4               | Application  | Session hijacking                 |
+| 4           | Transport    | 3               | Transport     | Port scanning (TCP/UDP)           |
+| 3           | Network      | 2               | Internet      | IP spoofing, routing              |
+| 2           | Data Link    | 1               | Link          | MAC flooding, ARP poisoning       |
+| 1           | Physical     | 1               | Link          | Physical access, BadUSB           |
+
+---
+
+If تود أي تغيير إضافي (مثلاً: ترجمة المحتوى للعربية، إضافة أمثلة بروتوكولات مفصّلة، أو تحسين الجداول)، أخبرني ما الذي تريد تعديله تحديدًا. 
