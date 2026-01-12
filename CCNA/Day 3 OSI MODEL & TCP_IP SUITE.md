@@ -16,8 +16,7 @@ A set of rules defining how network devices and software should work.
 
 ## 7. Application Layer
 ● This layer is closest to the end user. 
-● Interacts with software applications, for example your web browser (Brave, Firefox, Chrome, etc) 
-● HTTP and HTTPS are Layer 7 protocols
+● Interacts with software applications, for example your web browser (Brave, Firefox, Chrome, etc) ● HTTP and HTTPS are Layer 7 protocols 
 
 Functions of Layer 7 include:
 ● Identifying communication partners 
